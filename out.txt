@@ -1,8 +1,8 @@
-Container has 3 elements
+Container has 4 elements
 
 [Replacement method]
-String: ÀÁÂ
-Encrypt message: ßÞÝ
+String: Ð°Ð±Ð²
+Encrypt message: Ø°Ø±Ø²
 [Shift method]
 String: abcd
 Key = 3
@@ -11,6 +11,9 @@ Encrypt message : defg
 String: hello world
 Key = 27
 Encrypt message : 85ccf nfic4
+[Replacement method]
+String: abcdef
+Encrypt message: 987654
 
 Container has 0 elements
 

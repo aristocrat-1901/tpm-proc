@@ -12,7 +12,7 @@ def main():
     else:
         infile = sys.argv[1]
         outfile = sys.argv[2]
-    input_file = open(sys.argv[1], "r")
+    input_file = open(infile, "r")
 
     print('Start')
 
@@ -21,7 +21,7 @@ def main():
 
     print('Filled container')
 
-    output_file = open(sys.argv[2], "w")
+    output_file = open(outfile, "w")
     container_write_to(cont, output_file)
 
     container_clear(cont)

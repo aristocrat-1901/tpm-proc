@@ -81,7 +81,6 @@ def text_write_to(text, stream):
 
 
 def replace_read_from(text, stream, line):
-    print(line)
     text.encrypt_line = enc_dec_replace(line)
 
 
