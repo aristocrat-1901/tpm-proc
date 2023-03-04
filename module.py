@@ -1,5 +1,5 @@
 from enum import Enum
-from encrypt_methods import enc_dec_replace, enc_dec_shift
+from encrypt_methods import enc_dec_replace, enc_dec_shift, enc_dec_replace_num
 
 
 class Node:
@@ -61,6 +61,10 @@ def text_read_from(stream, line):
         text.key = Type.shift
         text.obj = Shift()
         shift_read_from(text.obj, stream, text.line_symbol)
+    elif k == 3:
+        text.key = Type.replacement_by_num
+        text.obj = ReplaceNum
+        replace_num_read_from(text.obj, stream, text.line_symbol)
     else:
         return 0
 
@@ -76,13 +80,16 @@ def text_write_to(text, stream):
         stream.write('[Shift method]\n')
         stream.write(f'String: {text.line_symbol}\n')
         shift_write_to(text.obj, stream)
+    if text.key == Type.replacement_by_num:
+        stream.write('[Replacement by numbers method]\n')
+        stream.write(f'String: {text.line_symbol}\n')
+        replace_write_to(text.obj, stream)
     else:
         stream.write('Error type\n')
 
 
 def replace_read_from(text, stream, line):
     text.encrypt_line = enc_dec_replace(line)
-
 
 
 def replace_write_to(text, stream):
@@ -96,6 +103,14 @@ def shift_read_from(text, stream, line):
 
 def shift_write_to(text, stream):
     stream.write(f'Key = {text.key}\nEncrypt message : {text.encrypt_line}\n')
+
+
+def replace_num_read_from(text, stream, line):
+    text.encrypt_line = enc_dec_replace_num(line)
+
+
+def replace_num_write_to(text, stream):
+    stream.write(f'Encrypt message: {text.encrypt_line}\n')
 
 
 class Text:
@@ -116,6 +131,12 @@ class Shift:
         self.encrypt_line = None
 
 
+class ReplaceNum:
+    def __init__(self):
+        self.encrypt_line = None
+
+
 class Type(Enum):
     replacement = 1
     shift = 2
+    replacement_by_num = 3

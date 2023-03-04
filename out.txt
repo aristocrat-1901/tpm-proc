@@ -1,19 +1,26 @@
-Container has 4 elements
+Container has 5 elements
 
 [Replacement method]
 String: абв
 Encrypt message: ذرز
+Error type
 [Shift method]
 String: abcd
 Key = 3
 Encrypt message : defg
+Error type
 [Shift method]
 String: hello world
 Key = 27
 Encrypt message : 85ccf nfic4
+Error type
 [Replacement method]
 String: abcdef
 Encrypt message: 987654
+Error type
+[Replacement by numbers method]
+String: abc
+Encrypt message: 979899
 
 Container has 0 elements
 
