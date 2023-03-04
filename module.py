@@ -53,6 +53,7 @@ def text_read_from(stream, line):
 
     text = Text()
     text.line_symbol = stream.readline().rstrip('\n')
+    text.author = stream.readline().rstrip('\n')
     if k == 1:
         text.key = Type.replacement
         text.obj = Replace()
@@ -71,10 +72,12 @@ def text_write_to(text, stream):
     if text.key == Type.replacement:
         stream.write('[Replacement method]\n')
         stream.write(f'String: {text.line_symbol}\n')
+        stream.write(f'Author: {text.author}\n')
         replace_write_to(text.obj, stream)
     elif text.key == Type.shift:
         stream.write('[Shift method]\n')
         stream.write(f'String: {text.line_symbol}\n')
+        stream.write(f'Author: {text.author}\n')
         shift_write_to(text.obj, stream)
     else:
         stream.write('Error type\n')
@@ -82,7 +85,6 @@ def text_write_to(text, stream):
 
 def replace_read_from(text, stream, line):
     text.encrypt_line = enc_dec_replace(line)
-
 
 
 def replace_write_to(text, stream):
@@ -103,6 +105,7 @@ class Text:
         self.line_symbol = None  # строка символов
         self.key = None  # номер способа шифрования
         self.obj = None  # способ шифрования
+        self.author = None  # владелец строки
 
 
 class Replace:
