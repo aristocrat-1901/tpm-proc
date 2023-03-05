@@ -85,9 +85,11 @@ def text_write_to(text, stream):
         stream.write(f'Author: {text.author}\n')
         stream.write(f'String length: {number_of_symbols(text)}\n')
         shift_write_to(text.obj, stream)
-    if text.key == Type.replacement_by_num:
+    elif text.key == Type.replacement_by_num:
         stream.write('[Replacement by numbers method]\n')
         stream.write(f'String: {text.line_symbol}\n')
+        stream.write(f'Author: {text.author}\n')
+        stream.write(f'String length: {number_of_symbols(text)}\n')
         replace_write_to(text.obj, stream)
     else:
         stream.write('Error type\n')

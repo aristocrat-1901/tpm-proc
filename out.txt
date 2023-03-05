@@ -1,4 +1,4 @@
-Container has 4 elements
+Container has 5 elements
 
 [Replacement method]
 String: It is secret message
@@ -22,6 +22,11 @@ String: abcdef
 Author: Pasha
 String length: 6
 Encrypt message: 987654
+[Replacement by numbers method]
+String: it is new method
+Author: Vasily
+String length: 16
+Encrypt message: 105116321051153211010111932109101116104111100
 
 Container has 0 elements
 
