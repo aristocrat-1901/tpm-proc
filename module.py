@@ -77,11 +77,13 @@ def text_write_to(text, stream):
         stream.write('[Replacement method]\n')
         stream.write(f'String: {text.line_symbol}\n')
         stream.write(f'Author: {text.author}\n')
+        stream.write(f'String length: {number_of_symbols(text)}\n')
         replace_write_to(text.obj, stream)
     elif text.key == Type.shift:
         stream.write('[Shift method]\n')
         stream.write(f'String: {text.line_symbol}\n')
         stream.write(f'Author: {text.author}\n')
+        stream.write(f'String length: {number_of_symbols(text)}\n')
         shift_write_to(text.obj, stream)
     if text.key == Type.replacement_by_num:
         stream.write('[Replacement by numbers method]\n')
@@ -95,6 +97,7 @@ def replace_read_from(text, stream, line):
     text.encrypt_line = enc_dec_replace(line)
 
 
+
 def replace_write_to(text, stream):
     stream.write(f'Encrypt message: {text.encrypt_line}\n')
 
@@ -106,6 +109,9 @@ def shift_read_from(text, stream, line):
 
 def shift_write_to(text, stream):
     stream.write(f'Key = {text.key}\nEncrypt message : {text.encrypt_line}\n')
+
+def number_of_symbols(text):
+    return len(text.line_symbol)
 
 
 def replace_num_read_from(text, stream, line):
