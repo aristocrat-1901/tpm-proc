@@ -71,7 +71,7 @@ def container_write_to_replace(container, stream):
         if n.data.key == Type.replacement:
             text_write_to(n.data, stream)
         n = n.next
-    # stream.write('\n')
+    stream.write('\n')
 
 
 def text_read_from(stream, line):

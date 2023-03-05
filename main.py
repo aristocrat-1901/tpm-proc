@@ -24,8 +24,8 @@ def main():
     print('Filled container')
     container_sort(cont)
     output_file = open(outfile, "w")
-    #container_write_to(cont, output_file)
-    container_write_to_replace(cont,output_file)
+    container_write_to(cont, output_file)
+    #container_write_to_replace(cont, output_file)
     container_clear(cont)
 
     print('Empty container')
