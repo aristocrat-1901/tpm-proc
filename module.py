@@ -48,6 +48,21 @@ def container_write_to(container, stream):
         stream.write('\n')
 
 
+def container_sort(container):
+    if container.start_node is None:
+        print('Empty list')
+    else:
+        n1 = container.start_node
+        n2 = container.start_node.next
+        while n1 is not None:
+            while n2 is not None:
+                if number_of_symbols(n1.data) < number_of_symbols(n2.data):  # > сортировка по убыванию длины строк
+                    n1.data, n2.data = n2.data, n1.data
+                n2 = n2.next
+            n1 = n1.next
+            n2 = container.start_node
+
+
 def text_read_from(stream, line):
     k = int(line)
 
@@ -97,6 +112,7 @@ def shift_read_from(text, stream, line):
 
 def shift_write_to(text, stream):
     stream.write(f'Key = {text.key}\nEncrypt message : {text.encrypt_line}\n')
+
 
 def number_of_symbols(text):
     return len(text.line_symbol)
