@@ -48,6 +48,17 @@ def container_write_to(container, stream):
         stream.write('\n')
 
 
+def container_write_to_replace(container, stream):
+    print("Only replacement method")
+
+    n = container.start_node
+    while n is not None:
+        if n.data.key == Type.replacement:
+            text_write_to(n.data, stream)
+        n = n.next
+    # stream.write('\n')
+
+
 def text_read_from(stream, line):
     k = int(line)
 
@@ -82,7 +93,6 @@ def text_write_to(text, stream):
 
 def replace_read_from(text, stream, line):
     text.encrypt_line = enc_dec_replace(line)
-
 
 
 def replace_write_to(text, stream):

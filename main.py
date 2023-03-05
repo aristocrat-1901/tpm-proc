@@ -1,7 +1,8 @@
 import sys
 from module import (Container, container_read_from,
                     container_write_to,
-                    container_clear)
+                    container_clear,
+                    container_write_to_replace)
 
 
 def main():
@@ -22,8 +23,8 @@ def main():
     print('Filled container')
 
     output_file = open(outfile, "w")
-    container_write_to(cont, output_file)
-
+    #container_write_to(cont, output_file)
+    container_write_to_replace(cont,output_file)
     container_clear(cont)
 
     print('Empty container')
