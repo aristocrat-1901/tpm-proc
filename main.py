@@ -1,7 +1,8 @@
 import sys
 from module import (Container, container_read_from,
                     container_write_to,
-                    container_clear)
+                    container_clear,
+                    container_sort)
 
 
 def main():
@@ -20,7 +21,7 @@ def main():
     container_read_from(cont, input_file)
 
     print('Filled container')
-
+    container_sort(cont)
     output_file = open(outfile, "w")
     container_write_to(cont, output_file)
 
