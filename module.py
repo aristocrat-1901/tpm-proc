@@ -33,8 +33,9 @@ def container_clear(container):
 
 def container_read_from(container, stream):
     while line := stream.readline():
-        item = text_read_from(stream, line)
-        container_add(container, item)
+        item = text_read_from(line)
+        if item is not None:
+            container_add(container, item)
 
 
 def container_write_to(container, stream):
@@ -74,26 +75,28 @@ def container_write_to_replace(container, stream):
     stream.write('\n')
 
 
-def text_read_from(stream, line):
-    k = int(line)
+def text_read_from(line):
+    list_param = line.rstrip('\n').split('; ')
 
+    k = int(list_param[0])
     text = Text()
-    text.line_symbol = stream.readline().rstrip('\n')
-    text.author = stream.readline().rstrip('\n')
+    text.line_symbol = list_param[1]
+    text.author = list_param[2]
     if k == 1:
         text.key = Type.replacement
         text.obj = Replace()
-        replace_read_from(text.obj, stream, text.line_symbol)
+        replace_read_from(text.obj, text.line_symbol)
     elif k == 2:
         text.key = Type.shift
         text.obj = Shift()
-        shift_read_from(text.obj, stream, text.line_symbol)
+        shift_read_from(text.obj, list_param[3], text.line_symbol)
     elif k == 3:
         text.key = Type.replacement_by_num
         text.obj = ReplaceNum
-        replace_num_read_from(text.obj, stream, text.line_symbol)
+        replace_num_read_from(text.obj, text.line_symbol)
     else:
-        return 0
+        print(f"Недопустимый тип метода {k}")
+        return
 
     return text
 
@@ -121,7 +124,7 @@ def text_write_to(text, stream):
         stream.write('Error type\n')
 
 
-def replace_read_from(text, stream, line):
+def replace_read_from(text, line):
     text.encrypt_line = enc_dec_replace(line)
 
 
@@ -129,8 +132,8 @@ def replace_write_to(text, stream):
     stream.write(f'Encrypt message: {text.encrypt_line}\n')
 
 
-def shift_read_from(text, stream, line):
-    text.key = int(stream.readline())
+def shift_read_from(text, key, line):
+    text.key = int(key)
     text.encrypt_line = enc_dec_shift(line, text.key)
 
 
@@ -142,7 +145,7 @@ def number_of_symbols(text):
     return len(text.line_symbol)
 
 
-def replace_num_read_from(text, stream, line):
+def replace_num_read_from(text, line):
     text.encrypt_line = enc_dec_replace_num(line)
 
 
