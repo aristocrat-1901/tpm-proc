@@ -16,7 +16,11 @@ def main():
         infile = sys.argv[1]
         outfile = sys.argv[2]
 
-    input_file = open(infile, "r")
+    try:
+        input_file = open(infile, "r")
+    except OSError:
+        print(f'Ошибка открытия файла {infile}')
+        sys.exit(1)
     print('Start')
     cont = Container()
     container_read_from(cont, input_file)
@@ -24,9 +28,13 @@ def main():
 
     print('Filled container')
     container_sort(cont)  # сортировка контейнера по количеству символов в строке
-    output_file = open(outfile, "w")
+    try:
+        output_file = open(outfile, "w")
+    except OSError:
+        print(f'Ошибка открытия файла {outfile}')
+        sys.exit(1)
     container_write_to(cont, output_file)
-    # container_write_to_replace(cont, output_file) # запись в файл только одного метода Replace
+    #container_write_to_replace(cont, output_file) # запись в файл только одного метода Replace
 
     container_clear(cont)
     print('Empty container')

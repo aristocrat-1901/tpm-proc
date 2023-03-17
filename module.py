@@ -1,6 +1,6 @@
 from enum import Enum
 from encrypt_methods import enc_dec_replace, enc_dec_shift, enc_dec_replace_num
-
+import sys
 
 class Node:
     def __init__(self, data):
@@ -77,8 +77,14 @@ def container_write_to_replace(container, stream):
 
 def text_read_from(line):
     list_param = line.rstrip('\n').split('; ')
-
-    k = int(list_param[0])
+    if len(list_param) < 3:
+        print('Неверный формат входной строки!')
+        return
+    try:
+        k = int(list_param[0])
+    except ValueError:
+        print('Первый параметр некорректен!')
+        return
     text = Text()
     text.line_symbol = list_param[1]
     text.author = list_param[2]
@@ -89,13 +95,17 @@ def text_read_from(line):
     elif k == 2:
         text.key = Type.shift
         text.obj = Shift()
-        shift_read_from(text.obj, list_param[3], text.line_symbol)
+        try:
+            shift_read_from(text.obj, list_param[3], text.line_symbol)
+        except LookupError:
+            print("Для 2 метода задан некорректный ключ!")
+            return
     elif k == 3:
         text.key = Type.replacement_by_num
         text.obj = ReplaceNum
         replace_num_read_from(text.obj, text.line_symbol)
     else:
-        print(f"Недопустимый тип метода {k}")
+        print(f"Недопустимый тип метода {k}!")
         return
 
     return text
@@ -103,25 +113,37 @@ def text_read_from(line):
 
 def text_write_to(text, stream):
     if text.key == Type.replacement:
-        stream.write('[Replacement method]\n')
-        stream.write(f'String: {text.line_symbol}\n')
-        stream.write(f'Author: {text.author}\n')
-        stream.write(f'String length: {number_of_symbols(text)}\n')
-        replace_write_to(text.obj, stream)
+        try:
+            stream.write('[Replacement method]\n')
+            stream.write(f'String: {text.line_symbol}\n')
+            stream.write(f'Author: {text.author}\n')
+            stream.write(f'String length: {number_of_symbols(text)}\n')
+            replace_write_to(text.obj, stream)
+        except OSError:
+            print('Ошибка записи в файл!')
+            sys.exit(1)
     elif text.key == Type.shift:
-        stream.write('[Shift method]\n')
-        stream.write(f'String: {text.line_symbol}\n')
-        stream.write(f'Author: {text.author}\n')
-        stream.write(f'String length: {number_of_symbols(text)}\n')
-        shift_write_to(text.obj, stream)
+        try:
+            stream.write('[Shift method]\n')
+            stream.write(f'String: {text.line_symbol}\n')
+            stream.write(f'Author: {text.author}\n')
+            stream.write(f'String length: {number_of_symbols(text)}\n')
+            shift_write_to(text.obj, stream)
+        except OSError:
+            print('Ошибка записи в файл!')
+            sys.exit(1)
     elif text.key == Type.replacement_by_num:
-        stream.write('[Replacement by numbers method]\n')
-        stream.write(f'String: {text.line_symbol}\n')
-        stream.write(f'Author: {text.author}\n')
-        stream.write(f'String length: {number_of_symbols(text)}\n')
-        replace_write_to(text.obj, stream)
+        try:
+            stream.write('[Replacement by numbers method]\n')
+            stream.write(f'String: {text.line_symbol}\n')
+            stream.write(f'Author: {text.author}\n')
+            stream.write(f'String length: {number_of_symbols(text)}\n')
+            replace_write_to(text.obj, stream)
+        except OSError:
+            print('Ошибка записи в файл!')
+            sys.exit(1)
     else:
-        stream.write('Error type\n')
+        stream.write('Ошибка при записи! Некорректный тип метода!\n')
 
 
 def replace_read_from(text, line):
@@ -133,7 +155,11 @@ def replace_write_to(text, stream):
 
 
 def shift_read_from(text, key, line):
-    text.key = int(key)
+    try:
+        text.key = int(key)
+    except ValueError:
+        print('Ключ для 2 метода должен быть числом!')
+        return
     text.encrypt_line = enc_dec_shift(line, text.key)
 
 
