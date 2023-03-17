@@ -2,6 +2,7 @@ from enum import Enum
 from encrypt_methods import enc_dec_replace, enc_dec_shift, enc_dec_replace_num
 import sys
 
+
 class Node:
     def __init__(self, data):
         self.data = data
@@ -41,7 +42,7 @@ def container_read_from(container, stream):
 def container_write_to(container, stream):
     stream.write(f'Container has {container.size} elements\n\n')
 
-    if container.start_node != None:
+    if container.start_node is not None:
         n = container.start_node
         while n:
             text_write_to(n.data, stream)
@@ -96,13 +97,17 @@ def text_read_from(line):
         text.key = Type.shift
         text.obj = Shift()
         try:
-            shift_read_from(text.obj, list_param[3], text.line_symbol)
+            key = int(list_param[3])
         except LookupError:
-            print("Для 2 метода задан некорректный ключ!")
+            print("Для 2 метода не задан ключ!")
             return
+        except ValueError:
+            print("Ключ для 2 метода должен быть числом!")
+            return
+        shift_read_from(text.obj, key, text.line_symbol)
     elif k == 3:
         text.key = Type.replacement_by_num
-        text.obj = ReplaceNum
+        text.obj = ReplaceNum()
         replace_num_read_from(text.obj, text.line_symbol)
     else:
         print(f"Недопустимый тип метода {k}!")
@@ -155,11 +160,7 @@ def replace_write_to(text, stream):
 
 
 def shift_read_from(text, key, line):
-    try:
-        text.key = int(key)
-    except ValueError:
-        print('Ключ для 2 метода должен быть числом!')
-        return
+    text.key = key
     text.encrypt_line = enc_dec_shift(line, text.key)
 
 
