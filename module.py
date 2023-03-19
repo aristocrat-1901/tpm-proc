@@ -65,6 +65,57 @@ def container_sort(container):
             n2 = container.start_node
 
 
+def container_check_texts(container):
+    texts_1 = []
+    n = container.start_node
+    while n is not None:
+        texts_1.append(n.data)
+        n = n.next
+
+    texts_2 = texts_1.copy()
+
+    for text_1 in texts_1:
+        for text_2 in texts_2:
+            check_texts(text_1.obj, text_2.obj)
+
+
+def check_texts(text_1, text_2):
+    match text_1, text_2:
+        case Replace(), Replace():
+            print("Шифрование одного типа: Replace and Replace")
+
+        case Replace(), Shift():
+            print("Шифрование разного типа: Replace and Shift")
+
+        case Replace(), ReplaceNum():
+            print("Шифрование разного типа: Replace and ReplaceNum")
+
+        case Shift(), Replace():
+            print("Шифрование разного типа: Shift and Replace")
+
+        case Shift(), Shift():
+            print("Шифрование одного типа: Shift and Shift")
+
+        case Shift(), ReplaceNum():
+            print("Шифрование разного типа: Shift and ReplaceNum")
+
+        case ReplaceNum(), Replace():
+            print("Шифрование разного типа: ReplaceNum and Replace")
+
+        case ReplaceNum(), Shift():
+            print("Шифрование разного типа: ReplaceNum and Shift")
+
+        case ReplaceNum(), ReplaceNum():
+            print("Шифрование одного типа: ReplaceNum and ReplaceNum")
+
+        case _:
+            print('Неизвестный тип')
+            return
+
+    print(f"Первый: {text_1}, второй: {text_2}")
+    print()
+
+
 def container_write_to_replace(container, stream):
     print("Only replacement method")
 

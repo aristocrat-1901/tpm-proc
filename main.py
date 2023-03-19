@@ -1,9 +1,11 @@
 import sys
-from module import (Container, container_read_from,
+from module import (Container,
+                    container_read_from,
                     container_write_to,
                     container_clear,
                     container_sort,
-                    container_write_to_replace)
+                    container_write_to_replace,
+                    container_check_texts)
 
 
 def main():
@@ -34,7 +36,8 @@ def main():
         print(f'Ошибка открытия файла {outfile}')
         sys.exit(1)
     container_write_to(cont, output_file)
-    #container_write_to_replace(cont, output_file) # запись в файл только одного метода Replace
+    # container_write_to_replace(cont, output_file) # запись в файл только одного метода Replace
+    container_check_texts(cont)
 
     container_clear(cont)
     print('Empty container')
